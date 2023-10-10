@@ -5,13 +5,11 @@
 # Import packages 
 suppressPackageStartupMessages(suppressWarnings(library(tidyverse)))
 suppressPackageStartupMessages(suppressWarnings(library(lubridate)))
-library(rdrop2)
+library(dplyr, warn.conflicts = FALSE)
 library(shiny)
+library(tidyr, include.only = c("gather"))
 library(openxlsx)
 library(markdown)
-
-# Read token to connect to source data Dropbox account
-token <- drop_auth(rdstoken = 'dropbox_token_2.rds')
 
 # Function that returns date the files were last modified
 update_date <- function(file_info, file_name){
@@ -42,12 +40,12 @@ if (development) {
     
 } else if (!development) {
     
-    # Read files from Dropbox - FOR USE ON LIVE SITE
-    gbif <- drop_read_csv('shiny/gbif.csv', dtoken = token,
+    # Read files from Figshare - FOR USE ON LIVE SITE needed for SI Shiny Server
+    gbif <- read.csv('https://smithsonian.figshare.com/ndownloader/files/42621247', 
                           stringsAsFactors = FALSE)
-    ggbn <- drop_read_csv('shiny/ggbn.csv', dtoken = token,
+    ggbn <- read.csv('https://smithsonian.figshare.com/ndownloader/files/42620371',
                           stringsAsFactors = FALSE)
-    genbank <- drop_read_csv('shiny/genbank.csv', dtoken = token,
+    genbank <- read.csv('https://smithsonian.figshare.com/ndownloader/files/42621265',
                              stringsAsFactors = FALSE)
 }
 
